@@ -3,10 +3,15 @@ Reimplimentation of the paper - Grad-CAM: Visual Explanations from Deep Networks
 
 Tasks:
 
-1. GradCAM class
-1. Guided Backprop class
-1. Models class
-1. GradCAM ++
-1. StyleGAN
-1. model utills
+1. Explanation models
+    1. GradCAM
+    1. GradCAM ++
+    1. Guided Backprop 
+1. Load trained models
+    1. StyleGAN
     1. vgg16
+    1. resnet
+    1. alexnet
+1. Imagenet utils
+
+
