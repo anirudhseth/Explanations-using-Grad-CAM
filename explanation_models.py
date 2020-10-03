@@ -1,5 +1,6 @@
 import tensorflow as tf 
-
+import numpy as np
+import cv2
 
 class gradcam():
     '''
@@ -20,12 +21,12 @@ class gradcam():
             # TODO : compare score before and after softmax ref : https://eli5.readthedocs.io/en/latest/tutorials/keras-image-classifiers.html#choosing-the-target-class-target-prediction
             loss = class_prediction[:,index]  # 
 
-        layer_output = layer_output[0]
+        
 
 
         gradients = tape.gradient(loss, layer_output) # gradient of y^c wrt to a^k of the covolution layer given as input
         # [1, 14, 14, 512]) same dimensions as the output of the last layer
-
+        layer_output = layer_output[0]
         gradients=gradients[0] # remove batch dimension [14, 14, 512]
 
         normalized_gradients = tf.divide(gradients, tf.sqrt(tf.reduce_mean(tf.square(gradients))) + tf.keras.backend.epsilon())
@@ -36,8 +37,8 @@ class gradcam():
         gradcam = tf.reduce_sum(tf.multiply(neuron_importance_weights, layer_output), axis=-1)  #14 x 14
 
         gradcam = tf.keras.activations.relu(gradcam)
-        gradcam = gradcam/np.max(gradcam)  ] # check without this 
-        gradcam = cv2.resize(gradcam, (224,224),interpolation=cv2.INTER_LINEAR)  #upscaling cv2 is buggy here
+        gradcam = gradcam/np.max(gradcam)   # check without this 
+        gradcam = cv2.resize(np.float32(gradcam), (224,224),interpolation=cv2.INTER_LINEAR)  #upscaling cv2 is buggy here
         return gradcam
 
 class guided_backprop():
