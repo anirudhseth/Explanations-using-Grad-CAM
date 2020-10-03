@@ -12,13 +12,18 @@ class load_model():
             from tensorflow.keras.applications import VGG16
             model_vgg16 = VGG16
             self.model=model_vgg16(weights="imagenet")
-            
+
         elif name=='resnet':
             self.model_name='resnet'
             from tensorflow.keras.applications import ResNet50
             model_resnet = ResNet50
             self.model=model_resnet(weights="imagenet")
 
+        elif name=='inceptionv3':
+            self.model_name='InceptionV3'
+            from tensorflow.keras.applications import InceptionV3
+            model_InceptionV3 = InceptionV3
+            self.model=model_InceptionV3(weights="imagenet")
 
 
     
