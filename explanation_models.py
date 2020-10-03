@@ -13,6 +13,7 @@ class gradcam():
         outputs = [model.get_layer(layer_name).output, model.output])
     
     def get_heatmap(self,img,index):
+        # TODO : image with batch dimension or without, better to add when getting predictions 
         with tf.GradientTape() as tape:
             inputs = tf.cast(img, tf.float32)
             (layer_output, class_prediction) = self.gradcamModel(inputs) # score of class c , y^c after softmax
