@@ -41,6 +41,15 @@ class gradcam():
         gradcam = cv2.resize(np.float32(gradcam), (224,224),interpolation=cv2.INTER_LINEAR)  #upscaling cv2 is buggy here
         return gradcam
 
+    def overlay_heatmap(self,img,heatmap):
+        '''
+        returns the heatmap with the applied colormap and the overlayed image 
+        '''
+        heatmap3d = np.expand_dims(heatmap, axis=2)
+        heatmap3d = np.tile(heatmap3d, [1,1,3])
+        heatmap3d_colormap= cv2.applyColorMap(np.uint8(255*heatmap3d),cv2.COLORMAP_HOT)
+        fused_img = cv2.addWeighted(img,0.7,heatmap3d_colormap,0.3,0)
+        return heatmap3d_colormap,fused_img
 class guided_backprop():
 
     def __init__(self):
