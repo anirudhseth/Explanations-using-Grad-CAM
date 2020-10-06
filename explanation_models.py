@@ -20,11 +20,7 @@ class gradcam():
             (layer_output, class_prediction) = self.gradcamModel(inputs) # score of class c , y^c after softmax  1, 14, 14, 512 and 1, 1000 , have batch dimension
             # TODO : compare score before and after softmax ref : https://eli5.readthedocs.io/en/latest/tutorials/keras-image-classifiers.html#choosing-the-target-class-target-prediction
             loss = class_prediction[:,index]  # 
-
-        
-
-
-        gradients = tape.gradient(loss, layer_output) # gradient of y^c wrt to a^k of the covolution layer given as input
+            gradients = tape.gradient(loss, layer_output) # gradient of y^c wrt to a^k of the covolution layer given as input
         # [1, 14, 14, 512]) same dimensions as the output of the last layer
         layer_output = layer_output[0]
         gradients=gradients[0] # remove batch dimension [14, 14, 512]
