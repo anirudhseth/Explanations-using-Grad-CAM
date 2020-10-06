@@ -10,6 +10,7 @@ class load_model():
         '''
         if name=='VGG16':
             self.model_name='VGG16'
+            self.input_dim=(224,224)
             from tensorflow.keras.applications import VGG16
             model_vgg16 = VGG16
             self.model=model_vgg16(weights="imagenet")
@@ -26,15 +27,14 @@ class load_model():
             model_InceptionV3 = InceptionV3
             self.model=model_InceptionV3(weights="imagenet")
         
-        elif name=='stylegan':
-            # TODO:
-    
+
+
     def get_predictions(self,img):
         '''
         returns probabilities for each class
         '''
         return self.model.predict(img)
-    
+
     def class_index(self,img):
         '''
         returns the class index 

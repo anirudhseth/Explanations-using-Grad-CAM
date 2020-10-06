@@ -8,10 +8,11 @@ class gradcam():
     url: https://arxiv.org/abs/1610.02391
     '''
 
-    def __init__(self,model,layer_name):
+    def __init__(self,model,layer_name,input_dim):
         self.gradcamModel= tf.keras.Model(
         inputs = [model.inputs],
         outputs = [model.get_layer(layer_name).output, model.output])
+        self.input_dim=input_dim
     
     def get_heatmap(self,img,index):
         # TODO : image with batch dimension or without, better to add when getting predictions 
@@ -34,7 +35,7 @@ class gradcam():
 
         gradcam = tf.keras.activations.relu(gradcam)
         gradcam = gradcam/np.max(gradcam)   # check without this 
-        gradcam = cv2.resize(np.float32(gradcam), (224,224),interpolation=cv2.INTER_LINEAR)  #upscaling cv2 is buggy here
+        gradcam = cv2.resize(np.float32(gradcam), self.input_dim,interpolation=cv2.INTER_LINEAR)  #upscaling cv2 is buggy here
         return gradcam
 
     def overlay_heatmap(self,img,heatmap):
