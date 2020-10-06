@@ -25,6 +25,9 @@ class load_model():
             from tensorflow.keras.applications import InceptionV3
             model_InceptionV3 = InceptionV3
             self.model=model_InceptionV3(weights="imagenet")
+        
+        elif name=='stylegan':
+            # TODO:
     
     def get_predictions(self,img):
         '''
