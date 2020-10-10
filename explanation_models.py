@@ -52,11 +52,11 @@ class gradcam():
         heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
         heatmap = (heatmap*255).astype("uint8")
         heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
-        superimposed_img = heatmap * 0.4 + img
-        superimposed_img = np.clip(superimposed_img,0,255).astype("uint8")
-        # superimposed_img = cv2.cvtColor(superimposed_img, cv2.COLOR_BGR2RGB)
+        fused_img = heatmap * 0.4 + img
+        fused_img = np.clip(fused_img,0,255).astype("uint8")
+        # fused_img = cv2.cvtColor(fused_img, cv2.COLOR_BGR2RGB)
 
-        return heatmap,superimposed_img  
+        return heatmap,fused_img  
 
 
 class guided_backprop():
