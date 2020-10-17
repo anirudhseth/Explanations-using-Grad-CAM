@@ -27,6 +27,7 @@ class load_model():
             model_InceptionV3 = InceptionV3
             self.model=model_InceptionV3(weights="imagenet")
         
+        # TODO: StyleGAN  (compatibility issues) 
 
 
     def get_predictions(self,img):
