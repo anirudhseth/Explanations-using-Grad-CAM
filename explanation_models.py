@@ -97,3 +97,44 @@ class gradcam_robust():
         # fused_img = cv2.cvtColor(fused_img, cv2.COLOR_BGR2RGB)
 
         return heatmap,fused_img 
+
+class gradcam_plusplus():
+    '''
+    Implimentation of GradCAM++
+    '''
+
+    def __init__(self,model,layer_name,input_dim):
+        self.gradcamModel= tf.keras.Model(
+        inputs = [model.inputs],
+        outputs = [model.get_layer(layer_name).output, model.output])
+        self.input_dim=input_dim
+    
+    def get_heatmap(self,img,index=None):
+ 
+        with tf.GradientTape() as tape1:
+            with tf.GradientTape() as tape2:
+                with tf.GradientTape() as tape3:
+                    (layer_output, class_prediction) = self.gradcamModel(img) 
+                    if(index==None):
+                        index=tf.argmax(class_prediction[0])
+                    loss = class_prediction[:,index]  
+                    gradients1 = tape.gradient(loss, layer_output) 
+                gradients2 = tape.gradient(gradients1, layer_output)
+            gradients3 = tape.gradient(gradients2, layer_output)
+
+        return gradcam
+
+    def overlay_heatmap(self,img,heatmap_lower_dim):
+        '''
+        returns the heatmap with the applied colormap and the overlayed image 
+        '''
+        img=keras.preprocessing.image.img_to_array(img)
+        heatmap=np.squeeze(heatmap_lower_dim)
+        heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
+        heatmap = (heatmap*255).astype("uint8")
+        heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
+        fused_img = heatmap * 0.4 + img
+        fused_img = np.clip(fused_img,0,255).astype("uint8")
+        # fused_img = cv2.cvtColor(fused_img, cv2.COLOR_BGR2RGB)
+
+        return heatmap,fused_img  
