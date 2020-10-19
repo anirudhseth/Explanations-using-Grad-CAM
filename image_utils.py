@@ -8,8 +8,9 @@ from tensorflow import keras
 
 class imagenet_utils():
 
-    def load_test_img():
-        img_path='dog.jpg'
+    def load_test_img(img_path=None):
+        if img_path==None:
+            img_path='dog.jpg'
         img = keras.preprocessing.image.load_img(img_path, target_size=(224, 224))
         array = keras.preprocessing.image.img_to_array(img)
         array = np.expand_dims(array, axis=0)
