@@ -36,6 +36,10 @@ class gradcam():
         return gradcam
 
 class guided_backprop():
+    '''
+    Implimentation of Guided Backprop 
+    url: https://www.cs.toronto.edu/~guerzhoy/321/lec/W07/HowConvNetsSee.pdf
+    '''
 
     # https://www.tensorflow.org/api_docs/python/tf/custom_gradient
 
@@ -88,7 +92,8 @@ class gradcam_robust():
 
 class gradcam_plusplus():
     '''
-    Implimentation of GradCAM++
+    Implimentation of Grad-CAM++: Improved Visual Explanations for Deep Convolutional Networks
+    url: https://arxiv.org/abs/1710.11063
     '''
 
     def __init__(self,model,layer_name,input_dim):
