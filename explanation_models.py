@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 from tensorflow import keras
 
+
 class gradcam():
     '''
     Implimentation of GradCAM : Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization
@@ -36,8 +37,34 @@ class gradcam():
 
 class guided_backprop():
 
-    def __init__(self):
-        print('test')
+    # https://www.tensorflow.org/api_docs/python/tf/custom_gradient
+
+    @tf.custom_gradient
+    def guided_Relu(self,x):
+        def grad(dy):
+            return tf.cast(dy>0,"float32") * tf.cast(x>0, "float32") * dy
+        return tf.nn.relu(x), grad
+
+    def __init__(self,model,layer_name,input_dim):
+        self.guided_backpropModel= tf.keras.Model(
+        inputs = [model.inputs],
+        outputs = [model.get_layer(layer_name).output])
+        self.input_dim=input_dim
+        for layer in self.guided_backpropModel.layers[1:]:
+            if hasattr(layer,"activation") and layer.activation == tf.keras.activations.relu :
+                layer.activation = self.guided_Relu
+    
+    def get_heatmap(self,img):
+ 
+        with tf.GradientTape() as tape:
+            img = tf.cast(img, tf.float32)
+            tape.watch(img)
+            layer_output = self.guided_backpropModel(img)
+
+        grads = tape.gradient(layer_output, img)[0]
+
+        guided_backprop_map = cv2.resize(np.asarray(grads), self.input_dim)
+        return guided_backprop_map
 
 class gradcam_robust():
 
@@ -58,7 +85,6 @@ class gradcam_robust():
             robust_heatmap.append(heatmap)
             del g
         return robust_heatmap
-
 
 class gradcam_plusplus():
     '''
