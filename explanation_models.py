@@ -1,6 +1,7 @@
 import tensorflow as tf 
 import numpy as np
 import cv2
+from skimage.color import rgb2gray
 from tensorflow import keras
 
 
@@ -59,7 +60,7 @@ class guided_backprop():
                 layer.activation = self.guided_Relu
     
     def get_heatmap(self,img):
- 
+
         with tf.GradientTape() as tape:
             img = tf.cast(img, tf.float32)
             tape.watch(img)
@@ -68,7 +69,8 @@ class guided_backprop():
         grads = tape.gradient(layer_output, img)[0]
 
         guided_backprop_map = cv2.resize(np.asarray(grads), self.input_dim)
-        return guided_backprop_map
+        guided_backprop_map_gray = rgb2gray(guided_backprop_map)
+        return guided_backprop_map_gray
 
 class gradcam_robust():
 
