@@ -17,7 +17,7 @@ class gradcam():
         outputs = [model.get_layer(layer_name).output, model.output])
         self.input_dim=input_dim
     
-    def get_heatmap(self,img,index=None):
+    def get_heatmap(self,img,index=None,CounterfactualExp=False):
  
         with tf.GradientTape() as tape:
             (layer_output, class_prediction) = self.gradcamModel(img) 
@@ -28,7 +28,10 @@ class gradcam():
         gradients = tape.gradient(loss, layer_output) # gradient of y^c wrt to a^k of the covolution layer given as input
         # [1, 14, 14, 512]) same dimensions as the output of the last layer
         layer_output = layer_output.numpy()[0]
-        neuron_importance_weights=tf.reduce_mean(gradients, axis=(0, 1, 2)).numpy()
+        if(CounterfactualExp):
+            neuron_importance_weights=tf.reduce_mean(gradients, axis=(0, 1, 2)).numpy()
+        else:
+            neuron_importance_weights=tf.reduce_mean(gradients, axis=(0, 1, 2)).numpy()
         for i in range(neuron_importance_weights.shape[-1]):
           layer_output[:, :, i] *= neuron_importance_weights[i]
         gradcam = np.mean(layer_output, axis=-1)
