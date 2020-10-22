@@ -37,13 +37,13 @@ class gradcam():
           layer_output[:, :, i] *= neuron_importance_weights[i]
         gradcam = tf.reduce_mean(layer_output, axis=-1).numpy()
        
-        gradcam = tf.keras.activations.relu(gradcam)
+        
         
         if np.max(gradcam) == 0:
             gradcam = gradcam/(np.max(gradcam)+tf.keras.backend.epsilon())
         else:
             gradcam = gradcam/np.max(gradcam)    
-        
+        gradcam = tf.keras.activations.relu(gradcam)
         return gradcam
 
 class guided_backprop():
