@@ -17,12 +17,14 @@ class load_model():
 
         elif name=='resnet':
             self.model_name='resnet'
+            self.input_dim=(224,224)
             from tensorflow.keras.applications import ResNet50
             model_resnet = ResNet50
             self.model=model_resnet(weights="imagenet")
 
         elif name=='inceptionv3':
             self.model_name='InceptionV3'
+            self.input_dim=(299,299)
             from tensorflow.keras.applications import InceptionV3
             model_InceptionV3 = InceptionV3
             self.model=model_InceptionV3(weights="imagenet")
