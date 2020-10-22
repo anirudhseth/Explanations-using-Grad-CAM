@@ -25,6 +25,7 @@ class gradcam():
                 index=tf.argmax(class_prediction[0])  # use the index with best score if none provided
             tape.watch(layer_output)
             loss = class_prediction[:,index]  # 
+           
         gradients = tape.gradient(loss, layer_output) # gradient of y^c wrt to a^k of the covolution layer given as input
         # [1, 14, 14, 512]) same dimensions as the output of the last layer
         layer_output = layer_output.numpy()[0]
@@ -34,9 +35,15 @@ class gradcam():
             neuron_importance_weights=tf.reduce_mean(gradients, axis=(0, 1, 2)).numpy()
         for i in range(neuron_importance_weights.shape[-1]):
           layer_output[:, :, i] *= neuron_importance_weights[i]
-        gradcam = np.mean(layer_output, axis=-1)
+        gradcam = tf.reduce_mean(layer_output, axis=-1).numpy()
+       
         gradcam = tf.keras.activations.relu(gradcam)
-        gradcam = gradcam/np.max(gradcam)    
+        
+        if np.max(gradcam) == 0:
+            gradcam = gradcam/(np.max(gradcam)+tf.keras.backend.epsilon())
+        else:
+            gradcam = gradcam/np.max(gradcam)    
+        
         return gradcam
 
 class guided_backprop():
