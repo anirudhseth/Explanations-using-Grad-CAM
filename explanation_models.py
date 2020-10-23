@@ -143,7 +143,11 @@ class gradcam_plusplus():
         gradcampp = np.sum(weights*layer_output[0], axis=2)
 
         gradcampp = tf.keras.activations.relu(gradcampp)
-        gradcampp=gradcampp/np.max(gradcampp) 
+        if np.max(gradcampp)==0:
+            gradcampp=gradcampp/np.max(gradcampp) 
+        else:
+            gradcampp=gradcampp/(np.max(gradcampp) +tf.keras.backend.epsilon())
+        
 
         return gradcampp
   
