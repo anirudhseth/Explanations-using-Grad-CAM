@@ -135,6 +135,7 @@ class gradcam_plusplus():
         
         neuron_importance_weights = neuron_importance_weights_num/neuron_importance_weights_denom
         Z = np.sum(neuron_importance_weights, axis=(0,1))
+        Z= np.where(Z != 0.0, Z, 1e-10)
         neuron_importance_weights /= Z
 
         weights = tf.keras.activations.relu(gradients1[0]) 
