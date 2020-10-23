@@ -28,6 +28,13 @@ class load_model():
             from tensorflow.keras.applications import InceptionV3
             model_InceptionV3 = InceptionV3
             self.model=model_InceptionV3(weights="imagenet")
+
+        elif name=='mobilenetv2':
+            self.model_name='MobileNet_v2'
+            self.input_dim=(224,224)
+            from tensorflow.keras.applications import MobileNetV2
+            model_mobilenetv2 = MobileNetV2
+            self.model=model_mobilenetv2(weights="imagenet")
         
         # TODO: StyleGAN  (compatibility issues) 
 
