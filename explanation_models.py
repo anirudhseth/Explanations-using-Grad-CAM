@@ -146,7 +146,7 @@ class gradcam_plusplus():
         if np.max(gradcampp)==0:
             gradcampp=gradcampp/(np.max(gradcampp) +tf.keras.backend.epsilon())
         else:
-            gradcampp=gradcampp/(np.max(gradcampp) 
+            gradcampp=gradcampp/np.max(gradcampp)
         
 
         return gradcampp
