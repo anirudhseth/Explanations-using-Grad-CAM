@@ -144,9 +144,9 @@ class gradcam_plusplus():
 
         gradcampp = tf.keras.activations.relu(gradcampp)
         if np.max(gradcampp)==0:
-            gradcampp=gradcampp/np.max(gradcampp) 
-        else:
             gradcampp=gradcampp/(np.max(gradcampp) +tf.keras.backend.epsilon())
+        else:
+            gradcampp=gradcampp/(np.max(gradcampp) 
         
 
         return gradcampp
