@@ -30,7 +30,7 @@ class gradcam():
         # [1, 14, 14, 512]) same dimensions as the output of the last layer
         layer_output = layer_output.numpy()[0]
         if(CounterfactualExp):
-            neuron_importance_weights=tf.reduce_mean(gradients, axis=(0, 1, 2)).numpy()
+            neuron_importance_weights=-tf.reduce_mean(gradients, axis=(0, 1, 2)).numpy()
         else:
             neuron_importance_weights=tf.reduce_mean(gradients, axis=(0, 1, 2)).numpy()
         for i in range(neuron_importance_weights.shape[-1]):
@@ -131,11 +131,11 @@ class gradcam_plusplus():
 
         neuron_importance_weights_num = gradients2[0]
         neuron_importance_weights_denom = 2*gradients2[0] + gradients3[0]*global_sum
-        neuron_importance_weights_denom = np.where(neuron_importance_weights_denom != 0.0, neuron_importance_weights_denom, 1e-10)
+        neuron_importance_weights_denom = np.where(neuron_importance_weights_denom != 0.0, neuron_importance_weights_denom,tf.keras.backend.epsilon())
         
         neuron_importance_weights = neuron_importance_weights_num/neuron_importance_weights_denom
         Z = np.sum(neuron_importance_weights, axis=(0,1))
-        Z= np.where(Z != 0.0, Z, 1e-10)
+        Z= np.where(Z != 0.0, Z, tf.keras.backend.epsilon())
         neuron_importance_weights /= Z
 
         weights = tf.keras.activations.relu(gradients1[0]) 
@@ -144,9 +144,10 @@ class gradcam_plusplus():
 
         gradcampp = tf.keras.activations.relu(gradcampp)
         if np.max(gradcampp)==0:
-            gradcampp=gradcampp/(np.max(gradcampp) +tf.keras.backend.epsilon())
+            
+            gradcampp = (gradcampp-np.min(gradcampp))/(np.max(gradcampp)-np.min(gradcampp)+tf.keras.backend.epsilon())
         else:
-            gradcampp=gradcampp/np.max(gradcampp)
+            gradcampp = (gradcampp-np.min(gradcampp))/(np.max(gradcampp)-np.min(gradcampp))
         
 
         return gradcampp

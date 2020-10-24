@@ -36,6 +36,13 @@ class load_model():
             model_mobilenetv2 = MobileNetV2
             self.model=model_mobilenetv2(weights="imagenet")
         
+        elif name=='densenet':
+            self.model_name='DenseNet121'
+            self.input_dim=(224,224)
+            from tensorflow.keras.applications import DenseNet121
+            model_densenet = DenseNet121
+            self.model=model_densenet(weights="imagenet")
+        
         # TODO: StyleGAN  (compatibility issues) 
 
 
