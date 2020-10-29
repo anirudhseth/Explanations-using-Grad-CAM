@@ -21,8 +21,8 @@ conda create --name <env> --file requirements.txt
 
 ### Results
 
-<img src="Results/table1.PNG" width="80%" height="80%" ></img>
-<img src="Results/table2.PNG" width="80%" height="80%" ></img>
+<img src="Results/table1.PNG" width="60%" height="60%" ></img>
+<img src="Results/table2.PNG" width="60%" height="60%" ></img>
 
 ## Counterfactual Explanations using Grad-CAM
 <img src="Results/CounterFactExp-crop.jpeg"></img>
