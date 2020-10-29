@@ -5,7 +5,7 @@ conda create --name <env> --file requirements.txt
 
 ## RESULTS
 ### Grad-CAM and Grad-CAM++ visualisations
-<img src="Results/GC_GCP_2.jpeg" width="75%" height="75%"></img>
+<img src="Results/GC_GCP_compare.jpeg" width="75%" height="75%"></img>
 ### Counterfactual Explanations using Grad-CAM
 <img src="Results/CounterFactExp.jpeg"></img>
 ### Image Captioning visualisations using Grad-CAM
