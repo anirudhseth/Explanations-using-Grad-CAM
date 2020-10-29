@@ -10,7 +10,8 @@ conda create --name <env> --file requirements.txt
 
 ## ILSVRC2015 Localization Challenge
 
-## Generated Bounding Boxes
+## Generated Bounding Boxes (VGG16)
+Green = Ground Truth, Magenta = Backprop, Blue = Grad-CAM, Turquoise = Grad-CAM++
 <img src="Results/imgs_[297 254 574 913 443]_bbs_vgg16.png" width="80%" height="80%" ></img>
 <img src="Results/imgs_[309 405 388 789 721]_bbs_vgg16.png" width="80%" height="80%" ></img>
 <img src="Results/imgs_[437 851 810 638 802]_bbs_vgg16.png" width="80%" height="80%" ></img>
