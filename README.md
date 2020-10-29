@@ -5,7 +5,7 @@ conda create --name <env> --file requirements.txt
 
 ## RESULTS
 ### Grad-CAM and Grad-CAM++ visualisations
-<img src="Results/Lobster_Example_GC_GCP.jpeg" width="75%" height="75%"></img>
+<img src="Results/GC_GCP_2.jpeg" width="75%" height="75%"></img>
 ### Counterfactual Explanations using Grad-CAM
 <img src="Results/CounterFactExp.jpeg"></img>
 ### Image Captioning visualisations using Grad-CAM
@@ -15,7 +15,7 @@ conda create --name <env> --file requirements.txt
 ### Effect of adveserial noise on Grad-CAM
 <img src="Results/Effect_of_Noise1.jpeg"></img>
 ### Robust Grad-CAM
-<img src="Results/Robust_architcture_results.jpeg"></img>
+<img src="Results/Robust_architcture_results-crop.jpeg"></img>
 ### Mode Collapse detection using Grad-CAM
 
 <img src="Results/Input%20image%20for%20mode%20collapse%20example.png" width="30%" height="30%"></img>
